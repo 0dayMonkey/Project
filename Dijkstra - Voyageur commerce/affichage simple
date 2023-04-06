@@ -1,0 +1,167 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include <float.h>
+
+#define N 8  // Nombre de villes
+
+typedef struct Coordonnee
+{
+  int x;
+  int y;
+} Coordonnee;
+
+// Fonction qui calcule la distance entre deux coordonnées
+double distance(Coordonnee A, Coordonnee B)
+{
+  double dx = A.x - B.x;
+  double dy = A.y - B.y;
+  return sqrt(dx*dx + dy*dy);
+}
+
+// Fonction qui calcule la distance totale d'un chemin donné
+double distanceTotale(int *chemin, Coordonnee *coordonnees)
+{
+  double totalDistance = 0;
+  for (int i = 0; i < N-1; i++)
+  {
+    totalDistance += distance(coordonnees[chemin[i]-1], coordonnees[chemin[i+1]-1]);
+  }
+  return totalDistance;
+}
+
+// Génère récursivement tous les chemins possibles
+void genererChemins(int *chemin, int indice, Coordonnee *coordonnees, double distanceLePlusCourte, int *cheminLePlusCourt)
+{
+  // Si toutes les villes ont été ajoutées au chemin
+  if (indice == N)
+  {
+    // Met à jour le chemin le plus court et la distance la plus courte si nécessaire
+    double distance = distanceTotale(chemin, coordonnees);
+if (distance < distanceLePlusCourte)
+{
+  distanceLePlusCourte = distance;
+  for (int i = 0; i < N; i++)
+  {
+    cheminLePlusCourt[i] = chemin[i];
+  }
+}
+  }
+  else
+  {
+    // Pour chaque ville non encore ajoutée au chemin
+    for (int ville = 1; ville <= N; ville++)
+    {
+      int ajoutee = 0;  // Indique si la ville a déjà été ajoutée au chemin
+      for (int i = 0; i < indice; i++)
+      {
+        if (chemin[i] == ville)
+        {
+          ajoutee = 1;
+          break;
+        }
+      }
+
+      if (!ajoutee)
+      {
+        // Ajoute la ville au chemin
+        chemin[indice] = ville;
+        // Appelle récursivement la fonction pour l'indice suivant
+        genererChemins(chemin, indice+1, coordonnees, distanceLePlusCourte, cheminLePlusCourt);
+      }
+    }
+  }
+}
+
+int main(void)
+{
+  // Initialise le générateur de nombres aléatoires
+  srand(time(NULL));
+
+  // Déclare un tableau de 8 coordonnées
+  Coordonnee coordonnees[8];
+  // Remplit le tableau avec des valeurs aléatoires
+  for (int i = 0; i < 8; i++)
+  {
+    coordonnees[i].x = rand() % 50;
+    coordonnees[i].y = rand() % 20;
+  }
+
+  // Affiche l'affichage de la forme indiquée, encadré par des | et des _
+  printf("|");
+  for (int x = 0; x < 50; x++)
+  {
+    printf("-");
+  }
+  printf("|\n");
+
+  for (int y = 0; y < 20; y++)
+  {
+    printf("|");
+    for (int x = 0; x < 50; x++)
+    {
+      // Indique si la coordonnée (x, y) est présente dans le tableau
+      int present = 0;
+      for (int i = 0; i < 8; i++)
+      {
+        if (coordonnees[i].x == x && coordonnees[i].y == y)
+        {
+          present = 1;
+          break;
+        }
+      }
+
+      // Affiche un X si la coordonnée est présente, sinon un espace
+      if (present)
+      {
+        printf("X");
+      }
+      else
+      {
+        printf(" ");
+      }
+    }
+    printf("|\n");
+  }
+
+  printf("|");
+  for (int x = 0; x < 50; x++)
+  {
+    printf("-");
+  }
+  printf("|\n");
+  // Affiche les coordonnées générées
+  for (int i = 0; i < 8; i++)
+  {
+    printf("Coordonnée %d : (%d, %d)\n", i+1, coordonnees[i].x, coordonnees[i].y);
+  }
+
+  // Trouve le chemin le plus court parmi tous les chemins possibles
+  int cheminLePlusCourt[N];
+double distanceLePlusCourte = 0;
+for (int i = 0; i < N-1; i++)
+{
+  for (int j = i+1; j < N; j++)
+  {
+    double d = distance(coordonnees[i], coordonnees[j]);
+    if (d > distanceLePlusCourte)
+    {
+      distanceLePlusCourte = d;
+    }
+  }
+}
+  int *chemin = malloc(N * sizeof(int));
+  genererChemins(chemin, 0, coordonnees, distanceLePlusCourte, cheminLePlusCourt);
+  free(chemin);
+
+  // Affiche le chemin le plus court
+  printf("Chemin le plus court : ");
+  for (int i = 0; i < N; i++)
+  {
+    printf("%d) ", cheminLePlusCourt[i]);
+  }
+  printf("\n");
+  printf("Distance : %lf\n", distanceLePlusCourte);
+  return 0;
+}
