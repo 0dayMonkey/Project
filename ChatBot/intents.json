@@ -1,0 +1,25 @@
+{
+  "intents": [
+    {
+      "tag": "salutation",
+      "patterns": ["Salut", "Bonjour", "Coucou"],
+      "responses": ["Bonjour!", "Salut!", "Coucou!"]
+    },
+    {
+      "tag": "au_revoir",
+      "patterns": ["Au revoir", "À plus tard", "Ciao"],
+      "responses": ["Au revoir!", "À plus tard!", "Ciao!"]
+    },
+    {
+      "tag": "merci",
+      "patterns": ["Merci", "Je te remercie", "Merci beaucoup"],
+      "responses": ["De rien!", "Je t'en prie!", "Avec plaisir!"]
+    }
+    {
+  "tag": "recherche",
+  "patterns": ["Recherche sur", "Cherche pour moi", "Peux-tu rechercher"],
+  "responses": ["Voici ce que j'ai trouvé:", "J'ai trouvé ces informations pour vous:"]
+}
+
+  ]
+}
