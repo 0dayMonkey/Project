@@ -1,0 +1,66 @@
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+.carousel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    flex-wrap: nowrap; /* Add this line */
+}
+
+  
+.card-container {
+    flex: 0 0 auto;
+    width: 100%;
+    transition: transform 0.5s;
+  }
+  
+.card {
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    background-color: hsl(280deg, 40%, calc(100% - var(--abs-offset) * 50%));
+    border-radius: 1rem;
+    color: #9CA3AF;
+    text-align: justify;
+    transition: all 0.3s ease-out;
+  }
+  
+.card h4 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 0 0.7em;
+    color: #1F2937;
+  }
+  
+.card p, .card h4 {
+    transition: all 0.3s ease-out;
+    opacity: var(--active);
+  }
+  
+  .nav {
+    color: white;
+    font-size: 3rem;
+    position: absolute;
+    top: calc(50% - 1.5rem);
+    z-index: 2;
+    cursor: pointer;
+    user-select: none;
+    background: none;
+    border: none;
+  }
+  
+  .nav i {
+    vertical-align: middle;
+  }
+  
+  .nav.left {
+    left: 1rem;
+  }
+  
+  .nav.right {
+    right: 1rem;
+  }
